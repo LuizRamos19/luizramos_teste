@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui" template="template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:dialog header="Cadastrar passageiro" id="dialog-modal-cadastrar"
+			widgetVar="dialog-modal-cadastrar" modal="true" height="400px"
+			width="500px" resizable="false">
+
+			<ui:include src="/view/cadastrarPassageiro.xhtml" />
+
+
+		</p:dialog>
+		
+		<p:tabView>
+			<p:tab title="Gerenciamento de passageiros">
+				<h:form style="margin:auto;" id="form-consulta">
+
+					<h:panelGrid columns="2" width="100%">
+						<p:commandButton icon="ui-icon-plusthick" title="Cadastrar Passageiro"
+							value="Cadastrar novo passageiro" ajax="true"
+							oncomplete="PF('dialog-modal-cadastrar').show();"
+							update="dialog-modal-cadastrar"
+						    />
+					</h:panelGrid>
+					<p:spacer />
+
+					<p:dataTable id="dataTable-registros" var="passageiro"
+						value="#{consultarPassageiroController.passageiros}" rows="10"
+						paginator="true"
+						filteredValue="#{consultarPassageiroController.passageirosFiltered}"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="[ Exibindo de {startRecord} a {endRecord} no total de {totalRecords} ]"
+						rowsPerPageTemplate="10,15,20" style="width:100%;"
+						emptyMessage="Não foram encontrados registros"
+						draggableRows="true" draggableColumns="true">
+
+						<p:column filterBy="#{passageiro.cpf_pas}" headerText="CPF"
+							filterMatchMode="contains">
+							<h:outputText value="#{passageiro.cpf_pas}" />
+						</p:column>
+
+						<p:column filterBy="#{passageiro.nm_passageiro}" headerText="Nome"
+							filterMatchMode="contains">
+							<h:outputText value="#{passageiro.nm_passageiro}" />
+						</p:column>
+
+						<p:column headerText="Data de nascimento">
+							<h:outputText value="#{passageiro.dt_nascimento_pas}" >
+								<f:convertDateTime pattern="dd/MM/yyyy"/>
+							</h:outputText>
+						</p:column>
+					
+						<p:column headerText="Sexo">
+							<h:outputText value="#{passageiro.sexo}" />
+						</p:column>
+						
+					</p:dataTable>
+					<p:confirmDialog global="true">
+						<p:commandButton value="Sim" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="Não" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+
+</ui:decorate>

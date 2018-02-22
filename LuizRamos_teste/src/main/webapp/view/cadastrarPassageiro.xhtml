@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form>
+
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="warn" />
+		<p:messages autoUpdate="true" closable="true" severity="error" />
+		<p:messages showDetail="true" autoUpdate="true" closable="true"
+			severity="info" />
+
+		<h:panelGrid id="panelGrid-campos-form" columns="2" cellpadding="10">
+
+			<p:outputLabel value="CPF" for="inputMask-cpf" title="CPF do passageiro"/>
+			<p:inputMask id="inputMask-cpf" mask="999.999.999-99"
+				style="width:100px" maxlength="80"
+				value="#{cadastrarPassageiroController.passageiroModel.cpf_pas}"
+				required="true"
+				requiredMessage="O cpf é de preenchimento obrigatório" />
+
+			<p:outputLabel value="Nome" for="inputText-nome" title="Nome do passageiro" />
+			<p:inputText id="inputText-nome" style="width:300px" maxlength="40"
+				value="#{cadastrarPassageiroController.passageiroModel.nm_passageiro}"
+				required="true"
+				requiredMessage="O nome é de preenchimento obrigatório" />     
+        
+			<p:outputLabel value="Nascimento" for="inputText-nasc" title="Data de nascimento do passageiro"/>
+			<p:calendar id="inputText-nasc" value="#{cadastrarPassageiroController.passageiroModel.dt_nascimento_pas}" 
+				locale="de" navigator="true" pattern="dd-MM-yyyy" mask="true"
+				required="true"
+				requiredMessage="A data é de preenchimento obrigatório" />
+			
+			<p:outputLabel value="Sexo" for="select-sexo" title="Indica o sexo do passageiro" />
+			<p:selectOneRadio id="select-sexo" value="#{cadastrarPassageiroController.passageiroModel.sexo}" required="true" requiredMessage="É necessário selecionar o sexo do passageiro">
+            	<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+            	<f:selectItem itemLabel="Feminino" itemValue="Feminino" />
+            </p:selectOneRadio>
+
+			<p:commandButton value="Salvar" id="commandButton-salvar"
+				icon="ui-icon-disk"
+				actionListener="#{cadastrarPassageiroController.SalvarNovoPassageiro}" />
+			
+			<p:commandButton value="Sair" id="commandButton-sair"
+				icon="ui-icon-extlink"
+				actionListener="PF('dialog-modal-editar').hide();" 
+				onclick="window.location.href=window.location.href"
+				/>
+
+		</h:panelGrid>
+
+	</h:form>
+
+</ui:composition>

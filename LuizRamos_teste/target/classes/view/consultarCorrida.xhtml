@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile" template="template.xhtml">
+
+	<ui:define name="conteudo">
+
+		<p:dialog header="Cadastrar corrida" id="dialog-modal-cadastrar"
+			widgetVar="dialog-modal-cadastrar" modal="true" height="300px"
+			width="500px" resizable="false">
+
+			<ui:include src="/view/cadastrarCorrida.xhtml" />
+
+		</p:dialog>
+
+		<p:tabView>
+			<p:tab title="Corridas registradas">
+				<h:form style="margin:auto;" id="form-consulta">
+				
+					<h:panelGrid columns="2" width="100%">
+						<p:commandButton icon="ui-icon-plusthick"
+							title="Cadastror nova corrida" value="Cadastrar nova corrida"
+							ajax="true" oncomplete="PF('dialog-modal-cadastrar').show();"
+							update="dialog-modal-cadastrar" />
+					</h:panelGrid>
+					<p:spacer />
+
+					<p:dataTable id="dataTable-registros" var="corrida"
+						value="#{consultarCorridaController.corridas}" rows="10"
+						filteredValue="#{consultarCorridaController.corridasFiltered}"
+						paginator="true"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+						currentPageReportTemplate="[ Exibindo de {startRecord} a {endRecord} no total de {totalRecords} ]"
+						rowsPerPageTemplate="10,15,20" style="width:100%;"
+						emptyMessage="Não foram encontrados registros"
+						draggableRows="true" draggableColumns="true">
+
+						<p:column headerText="Número">
+							<h:outputText value="#{corrida.id_corrida}" />
+						</p:column>
+
+						<p:column filterBy="#{corrida.cpf_motorista}"
+							headerText="Motorista" filterMatchMode="contains">
+							<h:outputText value="#{corrida.motorista}" />
+						</p:column>
+
+						<p:column filterBy="#{corrida.cpf_passageiro}"
+							headerText="Passageiro" filterMatchMode="contains">
+							<h:outputText value="#{corrida.passageiro}" />
+						</p:column>
+
+						<p:column headerText="Valor da corrida">
+							<h:outputText value="#{corrida.valor_corrida}" />
+						</p:column>
+
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+
+</ui:decorate>
